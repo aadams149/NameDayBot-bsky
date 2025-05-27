@@ -20,7 +20,7 @@ jobs:
 
       - name: Install required packages
         run: |
-              Rscript -e 'install.packages(c("dplyr","mapdeck","countrycode"
+              Rscript -e 'install.packages(c("dplyr","mapdeck","countrycode",
                "lubridate",
                 "httr2), repos = "https://cloud.r-project.org")'
 
