@@ -36,7 +36,8 @@ url <-
 
 req <-
   request(url) %>%
-  req_headers("Accept" = "application/json") %>%
+  req_headers("Accept" = "application/json",
+              `User-Agent` = "my-r-script/0.1") %>%
   req_perform() %>%
   resp_body_json()
 
