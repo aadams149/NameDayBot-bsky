@@ -1,17 +1,20 @@
 
 
 library(dplyr)
-library(mapdeck)
-capitals <-
-  mapdeck::capitals %>%
-  mutate(
-    country = case_when(
-      country == "Czech Republic" ~ "Czechia",
-      country == "United States\n        of America" ~ "United States",
-      TRUE ~ country
-    )
-  )
+#library(mapdeck)
+#capitals <-
+#  mapdeck::capitals %>%
+#  mutate(
+#    country = case_when(
+#      country == "Czech Republic" ~ "Czechia",
+#      country == "United States\n        of America" ~ "United States",
+#      TRUE ~ country
+#    )
+#  )
+# write.csv(capitals, "capitals.csv")
 
+capitals <-
+  read.csv("capitals.csv")
 library(countrycode)
 library(lutz)
 library(httr2)
