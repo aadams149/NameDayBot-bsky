@@ -22,7 +22,7 @@ jobs:
         run: |
               Rscript -e 'install.packages(c("dplyr","mapdeck","countrycode",
                "lubridate",
-                "httr2), repos = "https://cloud.r-project.org")'
+                "httr2"), repos = "https://cloud.r-project.org")'
 
       - name: Run my R script
         run: |
