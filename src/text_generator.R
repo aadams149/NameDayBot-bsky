@@ -17,7 +17,6 @@ capitals <-
   read.csv("capitals.csv")
 library(countrycode)
 library(lutz)
-library(httr2)
 
 today <-
   Sys.time()
