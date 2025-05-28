@@ -34,10 +34,10 @@ jobs:
         env:
           BSKY_HANDLE: ${{ secrets.BSKY_HANDLE }}
           BSKY_PASSWORD: ${{ secrets.BSKY_PASSWORD }}
-      - name: Commit and push changes
-        run: |
-          git add .
-          git commit -m "Automated commit from GitHub Actions"
-          git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #- name: Commit and push changes
+      #  run: |
+      #    git add .
+      #    git commit -m "Automated commit from GitHub Actions"
+      #    git push origin main
+      #  env:
+      #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
