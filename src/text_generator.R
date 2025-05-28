@@ -28,27 +28,35 @@ day <-
 month <-
   as.character(lubridate::month(today))
 
-url <-
-  paste0("https://nameday.abalin.net/api/V2/date?day=",
-         day,
-         "&month=",
-         month)
+library(jsonlite)
 
-req <-
-  request(url) %>%
-  req_headers("Accept" = "application/json",
-              `User-Agent` = "my-r-script/0.1") %>%
-  req_perform() %>%
-  resp_body_json()
+url <- "https://raw.githubusercontent.com/xnekv03/nameday-api/refs/heads/master/json/namedays.json"
+req <- readLines(url, warn = FALSE)
 
-req1 <-
-  req$data
+# Match the JSON element within the array for this day and month
+regex_pattern <- paste0("\\{[^\\{\\}]*\"day\"\\s*:\\s*", day,
+                        ",\\s*\"month\"\\s*:\\s*", month,
+                        "[^\\{\\}]*\\}")
 
+# Collapse to single string
+json_text <- paste(req, collapse = "")
 rm(req)
 
-df <- as.data.frame(matrix(unlist(req1), nrow = length(req1))) %>%
-  dplyr::mutate("country_code" = names(req1)) %>%
-  dplyr::rename("names" = V1) %>%
+json_text <- stringr::str_extract(json_text, regex_pattern)
+
+# Remove any trailing comma before a closing curly brace `}`
+json_text <- gsub(",\\s*}", "}", json_text)
+
+# Read as JSON
+namedays <- fromJSON(json_text)
+# Convert to dataframe
+namedays <- as.data.frame(namedays)
+# Restructure and pivot
+namedays <- 
+  namedays %>%
+  dplyr::select(!c(day, month)) %>%
+  tidyr::pivot_longer(colnames(.), names_to = "country_code",
+                      values_to = "names") %>%
   dplyr::filter(country_code != "ru") %>%
   dplyr::left_join(
     countrycode::codelist %>%
@@ -61,37 +69,37 @@ df <- as.data.frame(matrix(unlist(req1), nrow = length(req1))) %>%
                   lutz::tz_lookup_coords(lat = lat, lon = lon, method = "fast"))
 
 time_now <-
-  df %>%
+  namedays %>%
   rowwise() %>%
   do(time_now = lubridate::hour(lubridate::with_tz(
     time = today, tzone = .$time_zone
   ))) %>%
   unlist()
 
-df <-
-  df %>%
+namedays <-
+  namedays %>%
   cbind.data.frame(time_now) %>%
   filter(time_now == 0, names != "n/a") %>%
   mutate(name_str = paste0(country," ",flag,": ", names, "\n")) %>%
   arrange(country)
 
-if (nrow(df) == 0) {
+if (nrow(namedays) == 0) {
   errorCondition("No names to publish right now")
 } else{
   post_date <-
     format(today + 1, format = "%B %d, %Y")
-  for (ii in 1:nrow(df)) {
+  for (ii in 1:nrow(namedays)) {
     message <-
       paste0(
         "It's ",
         post_date,
         ", the name day for these names:\n\n",
-        paste(paste(df$name_str[[ii]], collapse = "\n")),
+        paste(paste(namedays$name_str[[ii]], collapse = "\n")),
         "\nHappy name day!"
       )
     
     filename <-
-      paste0("posts/", df$country[ii], "_post.txt")
+      paste0("posts/", namedays$country[ii], "_post.txt")
     fileConn <-
       file(filename)
     
