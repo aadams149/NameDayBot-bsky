@@ -23,7 +23,7 @@ export default async function getPostText(): Promise<string> {
   const files = await glob(`${TEXT_FILES_DIR}/*.txt`)
   files.sort()
 
-  if (files.length === 0) {
+  if (files.length === 1) {
     throw new Error('No text files found in posts directory.')
   }
 
