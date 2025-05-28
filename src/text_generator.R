@@ -19,7 +19,7 @@ library(countrycode)
 library(lutz)
 
 today <-
-  Sys.time()
+  Sys.time() + lubridate::days(1)
 
 day <-
   as.character(lubridate::day(today))
