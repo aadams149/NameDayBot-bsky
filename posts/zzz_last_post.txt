@@ -1,5 +1,5 @@
-Data for this bot comes from here: https://github.com/xnekv03/nameday-api
+Data for this bot comes from here: <a href='https://github.com/xnekv03/nameday-api'></a>
 
-The repo for this bot can be found here: https://github.com/aadams149/NameDayBot-bsky
+The repo for this bot can be found here: <a href='https://github.com/aadams149/NameDayBot-bsky'></a>
 
 Happy name day!
