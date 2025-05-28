@@ -1,0 +1,10 @@
+Package: NameDayBot
+Type: Bluesky Bot
+Title: Name Day Bot
+Version: 0.1.1
+Author: Alexander Adams
+Maintainer: Alexander Adams <alex@alexanderjadams.com>
+Encoding: UTF-8
+Requires: dplyr,countrycode,lutz,jsonlite,stringr,lubridate
+LazyData: true
+RoxygenNote: 7.3.1
