@@ -19,7 +19,7 @@ library(countrycode)
 library(lutz)
 
 today <-
-  Sys.time() + lubridate::days(1)
+  Sys.time()# + lubridate::days(1)
 
 day <-
   as.character(lubridate::day(today))
@@ -78,7 +78,7 @@ time_now <-
 namedays <-
   namedays %>%
   cbind.data.frame(time_now) %>%
-  filter(time_now == 0, names != "n/a") %>%
+  filter(time_now == 9, names != "n/a") %>%
   mutate(name_str = paste0(country," ",flag,": ", names, "\n")) %>%
   arrange(country)
 
